@@ -1,6 +1,10 @@
 package kafka;
 
 import com.github.javafaker.Faker;
+import static com.google.protobuf.util.Timestamps.fromMillis;
+import static java.lang.System.currentTimeMillis;
+import com.google.protobuf.Timestamp;
+
 
 import java.util.Random;
 
@@ -45,6 +49,8 @@ public class SendKafkaProto {
       String cardNumber = faker.business().creditCardNumber();
       Integer typeValue = rd.nextInt(3);
       String currencyCode = faker.country().currencyCode();
+      Timestamp issued = fromMillis(currentTimeMillis());
+
 
       var cardData = CardData.CreditCard.newBuilder()
           .setName(name)
@@ -53,6 +59,7 @@ public class SendKafkaProto {
           .setTypeValue(typeValue)
           .setBlocked(false)
           .setCardNumber(cardNumber)
+	  .setIssued(issued)
           .build();
 
       var record = new ProducerRecord<String, CardData.CreditCard>(topic, "Credit Card", cardData);
