@@ -4,6 +4,11 @@ import com.github.javafaker.Faker;
 import static com.google.protobuf.util.Timestamps.fromMillis;
 import static java.lang.System.currentTimeMillis;
 import com.google.protobuf.Timestamp;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 import java.util.Random;
@@ -22,6 +27,10 @@ import java.util.Properties;
 
 public class SendKafkaProto {
   public static void main(String[] args) {
+
+	Logger logger = LoggerFactory.getLogger(SendKafkaProto.class);
+        logger.info("This is how you configure Log4J with SLF4J");
+
     String bootstrapServers = "127.0.0.1:9092";
     var properties = new Properties();
 
@@ -30,6 +39,9 @@ public class SendKafkaProto {
 
     properties.setProperty("key.serializer", StringSerializer.class.getName());
     properties.setProperty("value.serializer", KafkaProtobufSerializer.class.getName());
+
+    properties.setProperty("skip.known.types", "true");
+    properties.setProperty("auto.register.schemas", "true");
 
     KafkaProducer<String, CardData.CreditCard> producer = new KafkaProducer<>(properties);
     // Specify Topic
@@ -62,7 +74,13 @@ public class SendKafkaProto {
 	  .setIssued(issued)
           .build();
 
+      Gson gson = new GsonBuilder().serializeSpecialFloatingPointValues().serializeNulls().create();
+      logger.debug(gson.toJson(cardData));
+
       var record = new ProducerRecord<String, CardData.CreditCard>(topic, "Credit Card", cardData);
+
+      logger.debug(gson.toJson(record));
+
       producer.send(record);
     }
     producer.flush();
