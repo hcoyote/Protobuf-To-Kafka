@@ -17,7 +17,7 @@ Set things up by running:
 
 Once you have Lenses box up and running execute:
 
-## java -cp target/kafka-send-proto-0.1.0.jar kafka.SendKafkaProto
+## java -Dlog4j.configuration=file:`pwd`/log4j.properties  -cp target/kafka-send-proto-0.1.0.jar  kafka.SendKafkaProto
 
 ---
 
