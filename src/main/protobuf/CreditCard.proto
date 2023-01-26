@@ -1,27 +1,3 @@
-/*
-syntax = "proto3";
-
-package io.lenses.examples.serde.protobuf;
-
-option java_package = "com.example";
-option java_outer_classname = "CardData";
-
-message CreditCard {
-  string name = 1;
-  string country = 2;
-  string currency = 3;
-  string cardNumber = 4;
-  bool blocked = 5;
-  enum CardType {
-    VISA = 0;
-    MASTERCARD = 1;
-    AMEX = 2;
-  }
-  CardType type = 6;
-}
-
-*/
-
 syntax = "proto3";
 
 package io.lenses.examples.serde.protobuf;
@@ -31,6 +7,9 @@ import "google/protobuf/Timestamp.proto";
 option java_package = "com.example";
 option java_outer_classname = "CardData";
 
+
+
+
 message CreditCard {
   string name = 1;
   string country = 2;
@@ -38,9 +17,9 @@ message CreditCard {
   string cardNumber = 4;
   bool blocked = 5;
   enum CardType {
-    VISA = 0;
-    MASTERCARD = 1;
-    AMEX = 2;
+	VISA = 0;
+	MASTERCARD = 1;
+	AMEX = 2;
   }
   CardType type = 6;
   google.protobuf.Timestamp issued = 7;
